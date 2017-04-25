@@ -6,13 +6,15 @@ export default class Summary extends Component {
     super(props);
     this.nextStep = this.nextStep.bind(this);
     this.flatten = this.flatten.bind(this);
+    this.renderMedical = this.renderMedical.bind(this);
+    this.renderDemographic = this.renderDemographic.bind(this);
   }
 
   nextStep(e) {
-    console.log(e.target);
     this.props.nextStep(e);
   }
 
+  // Would normally get this from a lib or util class
   flatten(data) {
     var result = {};
     function recurse (cur, prop) {
@@ -37,13 +39,8 @@ export default class Summary extends Component {
     return result;
   }
 
-  render() {
-    const patientDemographic = Object.entries(this.props.demographicData).map(([key,value]) => {
-      return (
-          <div>{key} : {value.toString()}</div>
-      );
-    });
-    const patientMedical = Object.entries(this.flatten(this.props.medicalHistory)).map(([key,value])=>{
+  renderMedical(){
+    return Object.entries(this.flatten(this.props.medicalHistory)).map(([key,value])=>{
       if(typeof value === 'object'){
         let toReturn = Object.entries(value).map(([k, v]) => {
           return (
@@ -57,13 +54,24 @@ export default class Summary extends Component {
         );
       }
     });
+  }
+
+  renderDemographic(){
+    return Object.entries(this.props.demographicData).map(([key,value]) => {
+      return (
+          <div>{key} : {value.toString()}</div>
+      );
+    });
+  }
+
+  render() {
     return (
         <div className="summary-page">
           <h2>Summary</h2>
           <h3>Demographic Data</h3>
-          <p>{patientDemographic}</p>
+          <p>{this.renderDemographic()}</p>
           <h3>Medical History</h3>
-          <p>{patientMedical}</p>
+          <p>{this.renderMedical()}</p>
           <button className="btn-default" onClick={this.props.previousStep}>Back</button>
           <button className="btn-primary" onClick={this.nextStep}>Save &amp; Continue</button>
         </div>

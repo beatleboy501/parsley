@@ -24,6 +24,8 @@ var User = require('./app/models/user');
 /** The port used. Default is 8080 */
 var port = process.env.PORT || 8080;
 
+// If we were also going to include calls to the server
+// this would connect our app to the db
 //mongoose.connect(config.database);
 
 /** Add middleware to the app router */
@@ -46,6 +48,7 @@ app.get('/', function (req, res) {
 });
 
 app.use(express.static('out'));
+
 app.get('/app-documentation', function (req, res) {
   res.sendFile(__dirname + '/out/index.html');
 });

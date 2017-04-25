@@ -11,6 +11,9 @@ const propTypes = {
   showNavigation: React.PropTypes.bool
 };
 
+// The following is bad practice, I would normally
+// create a store using redux (was my initial approach, if you look at the reducers directory)
+// there was a time constraint however.
 let medicalHistory = {
   diseases: {
     cancer: false, heartDisease: false,
@@ -38,7 +41,7 @@ let medicalHistory = {
     medications: {text: 'Current medications: Please list any medications you are currently taking including non-prescription medications, vitamins and supplements.', explanation: ''},
     allergies: {text: 'Medication allergies or reactions: Please list any medication allergies or reactions.', explanation: ''},
     surgeries: {text: 'List any surgeries or hospital stays you have had and their approximate date / year', explanation: ''},
-    typeOfSurgeries: {text: 'Type of surgery or reason for hospitalization', explanation: ''},
+    typeOfSurgeries: {text: 'Type of surgery or reason for hospitalization', explanation: ''}
   }
 };
 
@@ -65,10 +68,11 @@ export default class Main extends Component {
     this.showStep = this.showStep.bind(this);
     this.saveValues = this.saveValues.bind(this);
     this.state = {
-      step: 1,
+      step: 1
     }
   }
 
+  // These 6 functions could probably be refactored into one
   handleChange(name, e) {
     demographicData[name] = e.target.value;
   }
@@ -162,6 +166,7 @@ export default class Main extends Component {
       prog: {width: (this.state.step / 5 * 100) + '%'}
     };
     return (
+        // styling was minimal due to time constraint
         <main style={style.center}>
           <h4>
             <span className="progress-step">Step {this.state.step}</span>

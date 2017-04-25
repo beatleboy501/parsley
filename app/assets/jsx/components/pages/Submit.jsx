@@ -8,8 +8,8 @@ export default class Submit extends Component {
   }
 
   nextStep(e) {
-    console.log(e.target);
-    this.props.nextStep(e);
+    e.preventDefault();
+    alert('No more steps!');
   }
 
   render() {

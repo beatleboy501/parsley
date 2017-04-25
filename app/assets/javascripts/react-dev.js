@@ -9574,6 +9574,9 @@ var propTypes = {
   showNavigation: _react2.default.PropTypes.bool
 };
 
+// The following is bad practice, I would normally
+// create a store using redux (was my initial approach, if you look at the reducers directory)
+// there was a time constraint however.
 var medicalHistory = {
   diseases: {
     cancer: false, heartDisease: false,
@@ -9637,6 +9640,9 @@ var Main = function (_Component) {
     };
     return _this;
   }
+
+  // These 6 functions could probably be refactored into one
+
 
   _createClass(Main, [{
     key: 'handleChange',
@@ -9743,22 +9749,25 @@ var Main = function (_Component) {
         },
         prog: { width: this.state.step / 5 * 100 + '%' }
       };
-      return _react2.default.createElement(
-        'main',
-        { style: style.center },
+      return (
+        // styling was minimal due to time constraint
         _react2.default.createElement(
-          'h4',
-          null,
+          'main',
+          { style: style.center },
           _react2.default.createElement(
-            'span',
-            { className: 'progress-step' },
-            'Step ',
-            this.state.step
-          )
-        ),
-        _react2.default.createElement('br', null),
-        _react2.default.createElement('progress', { className: 'progress', style: style.prog }),
-        this.showStep()
+            'h4',
+            null,
+            _react2.default.createElement(
+              'span',
+              { className: 'progress-step' },
+              'Step ',
+              this.state.step
+            )
+          ),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement('progress', { className: 'progress', style: style.prog }),
+          this.showStep()
+        )
       );
     }
   }]);
@@ -10017,6 +10026,7 @@ var DemographicData = function (_Component) {
     var _this = _possibleConstructorReturn(this, (DemographicData.__proto__ || Object.getPrototypeOf(DemographicData)).call(this, props));
 
     _this.nextStep = _this.nextStep.bind(_this);
+    _this.renderPersonalInfo = _this.renderPersonalInfo.bind(_this);
     return _this;
   }
 
@@ -10025,6 +10035,76 @@ var DemographicData = function (_Component) {
     value: function nextStep(e) {
       e.preventDefault();
       this.props.nextStep();
+    }
+  }, {
+    key: 'renderPersonalInfo',
+    value: function renderPersonalInfo() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'label',
+          null,
+          'First Name: '
+        ),
+        _react2.default.createElement('input', { name: 'firstName', ref: 'firstName', type: 'text',
+          onChange: this.props.handleChange.bind(this, 'firstName') }),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement(
+          'label',
+          null,
+          'Last Name: '
+        ),
+        _react2.default.createElement('input', { name: 'lastName', ref: 'lastName', type: 'text',
+          onChange: this.props.handleChange.bind(this, 'lastName') }),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement(
+          'label',
+          null,
+          'Email: '
+        ),
+        _react2.default.createElement('input', { name: 'email', ref: 'email', type: 'email',
+          onChange: this.props.handleChange.bind(this, 'email') })
+      );
+    }
+  }, {
+    key: 'renderAddress',
+    value: function renderAddress() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'label',
+          null,
+          'Street Address: '
+        ),
+        _react2.default.createElement('input', { name: 'streetAddress', ref: 'streetAddress', type: 'text',
+          onChange: this.props.handleChange.bind(this, 'streetAddress') }),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement(
+          'label',
+          null,
+          'City: '
+        ),
+        _react2.default.createElement('input', { name: 'city', ref: 'city', type: 'text',
+          onChange: this.props.handleChange.bind(this, 'city') }),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement(
+          'label',
+          null,
+          'State: '
+        ),
+        _react2.default.createElement('input', { name: 'state', ref: 'state', type: 'text', maxLength: '2',
+          onChange: this.props.handleChange.bind(this, 'state') }),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement(
+          'label',
+          null,
+          'Zip Code: '
+        ),
+        _react2.default.createElement('input', { name: 'zip', ref: 'zip', type: 'number', maxLength: '5',
+          onChange: this.props.handleChange.bind(this, 'zip') })
+      );
     }
   }, {
     key: 'render',
@@ -10085,29 +10165,7 @@ var DemographicData = function (_Component) {
                 null,
                 'Personal Info'
               ),
-              _react2.default.createElement(
-                'label',
-                null,
-                'First Name: '
-              ),
-              _react2.default.createElement('input', { name: 'firstName', ref: 'firstName', type: 'text',
-                onChange: this.props.handleChange.bind(this, 'firstName') }),
-              _react2.default.createElement('br', null),
-              _react2.default.createElement(
-                'label',
-                null,
-                'Last Name: '
-              ),
-              _react2.default.createElement('input', { name: 'lastName', ref: 'lastName', type: 'text',
-                onChange: this.props.handleChange.bind(this, 'lastName') }),
-              _react2.default.createElement('br', null),
-              _react2.default.createElement(
-                'label',
-                null,
-                'Email: '
-              ),
-              _react2.default.createElement('input', { name: 'email', ref: 'email', type: 'email',
-                onChange: this.props.handleChange.bind(this, 'email') }),
+              this.renderPersonalInfo(),
               _react2.default.createElement('br', null),
               _react2.default.createElement(
                 'h3',
@@ -10141,37 +10199,7 @@ var DemographicData = function (_Component) {
                 null,
                 'Address'
               ),
-              _react2.default.createElement(
-                'label',
-                null,
-                'Street Address: '
-              ),
-              _react2.default.createElement('input', { name: 'streetAddress', ref: 'streetAddress', type: 'text',
-                onChange: this.props.handleChange.bind(this, 'streetAddress') }),
-              _react2.default.createElement('br', null),
-              _react2.default.createElement(
-                'label',
-                null,
-                'City: '
-              ),
-              _react2.default.createElement('input', { name: 'city', ref: 'city', type: 'text',
-                onChange: this.props.handleChange.bind(this, 'city') }),
-              _react2.default.createElement('br', null),
-              _react2.default.createElement(
-                'label',
-                null,
-                'State: '
-              ),
-              _react2.default.createElement('input', { name: 'state', ref: 'state', type: 'text', maxLength: '2',
-                onChange: this.props.handleChange.bind(this, 'state') }),
-              _react2.default.createElement('br', null),
-              _react2.default.createElement(
-                'label',
-                null,
-                'Zip Code: '
-              ),
-              _react2.default.createElement('input', { name: 'zip', ref: 'zip', type: 'number', maxLength: '5',
-                onChange: this.props.handleChange.bind(this, 'zip') }),
+              this.renderAddress(),
               _react2.default.createElement('br', null),
               _react2.default.createElement(
                 'label',
@@ -10460,8 +10488,8 @@ var Submit = function (_Component) {
   _createClass(Submit, [{
     key: 'nextStep',
     value: function nextStep(e) {
-      console.log(e.target);
-      this.props.nextStep(e);
+      e.preventDefault();
+      alert('No more steps!');
     }
   }, {
     key: 'render',
@@ -10536,15 +10564,19 @@ var Summary = function (_Component) {
 
     _this.nextStep = _this.nextStep.bind(_this);
     _this.flatten = _this.flatten.bind(_this);
+    _this.renderMedical = _this.renderMedical.bind(_this);
+    _this.renderDemographic = _this.renderDemographic.bind(_this);
     return _this;
   }
 
   _createClass(Summary, [{
     key: 'nextStep',
     value: function nextStep(e) {
-      console.log(e.target);
       this.props.nextStep(e);
     }
+
+    // Would normally get this from a lib or util class
+
   }, {
     key: 'flatten',
     value: function flatten(data) {
@@ -10569,31 +10601,18 @@ var Summary = function (_Component) {
       return result;
     }
   }, {
-    key: 'render',
-    value: function render() {
-      var patientDemographic = Object.entries(this.props.demographicData).map(function (_ref) {
+    key: 'renderMedical',
+    value: function renderMedical() {
+      return Object.entries(this.flatten(this.props.medicalHistory)).map(function (_ref) {
         var _ref2 = _slicedToArray(_ref, 2),
             key = _ref2[0],
             value = _ref2[1];
 
-        return _react2.default.createElement(
-          'div',
-          null,
-          key,
-          ' : ',
-          value.toString()
-        );
-      });
-      var patientMedical = Object.entries(this.flatten(this.props.medicalHistory)).map(function (_ref3) {
-        var _ref4 = _slicedToArray(_ref3, 2),
-            key = _ref4[0],
-            value = _ref4[1];
-
         if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object') {
-          var toReturn = Object.entries(value).map(function (_ref5) {
-            var _ref6 = _slicedToArray(_ref5, 2),
-                k = _ref6[0],
-                v = _ref6[1];
+          var toReturn = Object.entries(value).map(function (_ref3) {
+            var _ref4 = _slicedToArray(_ref3, 2),
+                k = _ref4[0],
+                v = _ref4[1];
 
             return _react2.default.createElement(
               'div',
@@ -10614,6 +10633,27 @@ var Summary = function (_Component) {
           );
         }
       });
+    }
+  }, {
+    key: 'renderDemographic',
+    value: function renderDemographic() {
+      return Object.entries(this.props.demographicData).map(function (_ref5) {
+        var _ref6 = _slicedToArray(_ref5, 2),
+            key = _ref6[0],
+            value = _ref6[1];
+
+        return _react2.default.createElement(
+          'div',
+          null,
+          key,
+          ' : ',
+          value.toString()
+        );
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
       return _react2.default.createElement(
         'div',
         { className: 'summary-page' },
@@ -10630,7 +10670,7 @@ var Summary = function (_Component) {
         _react2.default.createElement(
           'p',
           null,
-          patientDemographic
+          this.renderDemographic()
         ),
         _react2.default.createElement(
           'h3',
@@ -10640,7 +10680,7 @@ var Summary = function (_Component) {
         _react2.default.createElement(
           'p',
           null,
-          patientMedical
+          this.renderMedical()
         ),
         _react2.default.createElement(
           'button',
