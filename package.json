@@ -27,7 +27,7 @@
     "jsonwebtoken": "^8.5.1",
     "mocha": "^6.1.4",
     "mongodb": "^2.2.26",
-    "mongoose": "^4.9.3",
+    "mongoose": "^5.7.5",
     "morgan": "^1.9.1",
     "object-assign": "^4.1.1",
     "react": "^15.4.2",
